@@ -1,6 +1,5 @@
 import os
 from langchain_chroma import Chroma
-from langchain_community.llms.ollama import Ollama
 from langchain_ollama import OllamaEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
@@ -8,7 +7,7 @@ from langchain_core.documents import Document
 
 def setup_chroma():
     # Initialize the embedding model from Ollama
-    embeddings = OllamaEmbeddings(model='llama3.2')
+    embeddings = OllamaEmbeddings(model='nomic-embed-text')
 
     # Create or connect to a persistent ChromaDB
     vector_store = Chroma(
@@ -32,12 +31,15 @@ def add_documents_to_vectorstore(vectorstore,documents):
 
 def main():
     vectorstore = setup_chroma()
-    llm = Ollama(model='llama3.2')
+
     query = "What is a mile in kilometres?"
-    results = llm(query)
+    results = vectorstore.similarity_search(query,k=2)
 
-    print(f"Query Results: {results}")
-
+    print("Query Results:")
+    for doc in results:
+        print(f"Content:{doc.page_content[:100]}...")
+        print(f"Source:{doc.metadata}")
+        print("-"*50)
 
 
 if __name__ == "__main__":
