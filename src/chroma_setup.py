@@ -1,14 +1,14 @@
 import os
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain_core.documents import Document
 
 def setup_chroma():
     # Initialize the embedding model from Ollama
     # You can replace "nomic-embed-text" with any embedding model you have in Ollama
-    embeddings = OllamaEmbeddings(model='nomic-embed-text')
+    embeddings = OllamaEmbeddings(model='llama3.2')
 
     # Create or connect to a persistent ChromaDB
     vector_store = Chroma(
