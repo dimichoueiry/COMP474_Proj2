@@ -1,5 +1,6 @@
 import os
 from langchain_chroma import Chroma
+from langchain_community.llms.ollama import Ollama
 from langchain_ollama import OllamaEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, DirectoryLoader
@@ -31,15 +32,12 @@ def add_documents_to_vectorstore(vectorstore,documents):
 
 def main():
     vectorstore = setup_chroma()
-
+    llm = Ollama(model='llama3.2')
     query = "What is a mile in kilometres?"
-    results = vectorstore.similarity_search(query,k=2)
+    results = llm(query)
 
-    print("Query Results:")
-    for doc in results:
-        print(f"Content:{doc.page_content[:100]}...")
-        print(f"Source:{doc.metadata}")
-        print("-"*50)
+    print(f"Query Results: {results}")
+
 
 
 if __name__ == "__main__":
