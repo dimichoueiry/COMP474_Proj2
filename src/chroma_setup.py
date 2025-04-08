@@ -12,7 +12,7 @@ def setup_chroma():
 
     # Create or connect to a persistent ChromaDB
     vector_store = Chroma(
-        collection_name="example_collection",
+        collection_name="chat_collection",
         embedding_function=embeddings,
         persist_directory="./chroma_langchain_db",  # Where to save data locally, remove if not necessary
     )
@@ -33,7 +33,7 @@ def add_documents_to_vectorstore(vectorstore,documents):
 def main():
     vectorstore = setup_chroma()
 
-    query = "What is the admission process for Computer Science at Concordia?"
+    query = "What is a mile in kilometres?"
     results = vectorstore.similarity_search(query,k=2)
 
     print("Query Results:")
